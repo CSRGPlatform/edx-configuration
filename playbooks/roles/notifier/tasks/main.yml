@@ -44,18 +44,12 @@
 - name: Convert incommon server CA to usable format
   command: "openssl x509 -inform DER -in /usr/share/ca-certificates/incommon/InCommonServerCA.crt -out /usr/share/ca-certificates/incommon/InCommonServerCA.crt"
   when: incommon_retrieved|success
-  tags:
-    - "install"
-    - "install:base"
 
 - name: Add InCommon ca cert
   lineinfile:
     dest: /etc/ca-certificates.conf
     regexp: 'incommon/InCommonServerCA.crt'
     line: 'incommon/InCommonServerCA.crt'
-  tags:
-    - "install"
-    - "install:base"
 
 - name: Update ca certs globally
   shell: "update-ca-certificates"
