@@ -35,12 +35,12 @@
   when: incommon_present|failed
 
 - name: Retrieve incommon server CA
-  command: "curl http://crt.incommon-rsa.org/InCommonRSAServerCA_2.crt -o /usr/share/ca-certificates/InCommonServerCA.crt"
+  command: "sudo curl http://crt.incommon-rsa.org/InCommonRSAServerCA_2.crt -o /usr/share/ca-certificates/InCommonServerCA.crt"
   when: incommon_present|failed
   register: incommon_retrieved
 
 - name: Convert incommon server CA to usable format
-  command: "openssl x509 -inform DER -in /usr/share/ca-certificates/InCommonServerCA.crt -out /usr/share/ca-certificates/InCommonServerCA.crt"
+  command: "sudo openssl x509 -inform DER -in /usr/share/ca-certificates/InCommonServerCA.crt -out /usr/share/ca-certificates/InCommonServerCA.crt"
   when: incommon_retrieved|success
 
 - name: Add InCommon ca cert
