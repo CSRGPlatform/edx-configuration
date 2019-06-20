@@ -35,8 +35,7 @@
   when: incommon_present|failed
 
 - name: Retrieve incommon server CA
-  get_url:
-    shell: curl http://crt.incommon-rsa.org/InCommonRSAServerCA_2.crt -o /usr/share/ca-certificates/incommon/InCommonServerCA.crt
+  command: "curl http://crt.incommon-rsa.org/InCommonRSAServerCA_2.crt -o /usr/share/ca-certificates/incommon/InCommonServerCA.crt"
   when: incommon_present|failed
   register: incommon_retrieved
 
