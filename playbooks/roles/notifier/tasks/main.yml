@@ -22,37 +22,37 @@
     state: present
   with_items: "{{ notifier_debian_pkgs }}"
 
-- name: Check if incommon ca is installed
-  command: "test -e /usr/share/ca-certificates/InCommonServerCA.crt"
-  register: incommon_present
-  ignore_errors: yes
+# - name: Check if incommon ca is installed
+#   command: "test -e /usr/share/ca-certificates/incommon/InCommonServerCA.crt"
+#   register: incommon_present
+#   ignore_errors: yes
 
-- name: Create incommon ca directory
-  file:
-    path: "/usr/share/ca-certificates/incommon"
-    state: directory
-    mode: "2775"
-  when: incommon_present|failed
+# - name: Create incommon ca directory
+#   file:
+#     path: "/usr/share/ca-certificates/incommon/incommon"
+#     state: directory
+#     mode: "2775"
+#   when: incommon_present|failed
 
-- name: Retrieve incommon server CA
-  command: "sudo curl http://crt.incommon-rsa.org/InCommonRSAServerCA_2.crt -o /usr/share/ca-certificates/InCommonServerCA.crt"
-  become: yes
-  when: incommon_present|failed
-  register: incommon_retrieved
+# - name: Retrieve incommon server CA
+#   command: "sudo curl http://crt.incommon-rsa.org/InCommonRSAServerCA_2.crt -o /usr/share/ca-certificates/incommon/InCommonServerCA.crt"
+#   become: yes
+#   when: incommon_present|failed
+#   register: incommon_retrieved
 
-- name: Convert incommon server CA to usable format
-  command: "sudo openssl x509 -inform DER -in /usr/share/ca-certificates/InCommonServerCA.crt -out /usr/share/ca-certificates/InCommonServerCA.crt"
-  become: yes
-  when: incommon_retrieved|success
+# - name: Convert incommon server CA to usable format
+#   command: "sudo openssl x509 -inform DER -in /usr/share/ca-certificates/incommon/InCommonServerCA.crt -out /usr/share/ca-certificates/InCommonServerCA.crt"
+#   become: yes
+#   when: incommon_retrieved|success
 
-- name: Add InCommon ca cert
-  lineinfile:
-    dest: /etc/ca-certificates.conf
-    regexp: 'incommon/InCommonServerCA.crt'
-    line: 'incommon/InCommonServerCA.crt'
+# - name: Add InCommon ca cert
+#   lineinfile:
+#     dest: /etc/ca-certificates.conf
+#     regexp: 'incommon/InCommonServerCA.crt'
+#     line: 'incommon/InCommonServerCA.crt'
 
-- name: Update ca certs globally
-  shell: "update-ca-certificates"
+# - name: Update ca certs globally
+#   shell: "update-ca-certificates"
 
 - name: Create notifier user {{ notifier_user }}
   user:
